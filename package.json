@@ -4,9 +4,11 @@
   "description": "Example of 2FA in a Node application",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Justin Boyer",
+  "contributors": "AndrewVV",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",

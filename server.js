@@ -42,7 +42,7 @@ router.post('/verify', function(req, res){
         encoding: 'base32',
         token: userToken
     });
-
+    console.log(verified)
     if(verified){
         user.two_factor_secret = user.two_factor_temp_secret;
         user.two_factor_enabled = true;
@@ -54,6 +54,35 @@ router.post('/verify', function(req, res){
         console.log('verification failed');
 
         res.send('<p>verification failed</p>');
+    }
+});
+
+router.get('/login', function(req, res){
+
+    res.send('<form action="/app/check-login" method="post">Enter Token: <input type="text" name="token"><br><input type="submit" value="login">');
+
+});
+
+router.post('/check-login', function(req, res){
+    var userToken = req.body.token; 
+
+    var base32secret = user.two_factor_secret;
+
+    var verified = speakeasy.totp.verify({
+        secret: base32secret,
+        encoding: 'base32',
+        token: userToken
+    });
+    console.log(verified)
+    console.log(user.two_factor_enabled === true)
+    if(verified && user.two_factor_enabled === true){
+        console.log('Successfully login');
+
+        res.send('<p>Successfully login!</p>');
+    } else {
+        console.log('Login failed');
+
+        res.send('<p>Login failed</p>');
     }
 });
 
